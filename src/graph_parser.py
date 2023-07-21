@@ -1,36 +1,48 @@
-# write a function that intakes a dictionary of nodes and their neighbors and returns a list of edges by from node to node
-# input: graph
-# output: list of edges
-# example: graph = {"model.gtm_germany.deu_ims_rpm_transactions_product_line": ["model.gtm_germany.deu_ims_rpm_master", "model.gtm_germany.deu_ims_rpm_master"]}
-# output: [["model.gtm_germany.deu_ims_rpm_transactions_product_line", "model.gtm_germany.deu_ims_rpm_master"], ["model.gtm_germany.deu_ims_rpm_transactions_product_line", "model.gtm_germany.deu_ims_rpm_master"]]
-# graph = {"model.gtm_germany.deu_ims_rpm_transactions_product_line": ["model.gtm_germany.deu_ims_rpm_master", "model.gtm_germany.deu_ims_rpm_master"]}
-def get_edges(graph):
-    edges = []
-    for node in graph:
-        for neighbor in graph[node]:
-            edges.append([node, neighbor])
-    return edges
+class Parser:
+    def __init__(self) -> None:
+        self.edges = []
+        self.weights = []
+        self.start_nodes = []
 
-# write a function that iterates through the values of the results key in a run_results.json file and returns a list of the unique_ids and execution_time of each unique_id
-# input: run_results.json file path
-# output: list of unique_ids and execution_time
-# example: "results": [{"status": "success", "timing": [{"name": "compile", "started_at": "2023-07-20T11:03:27.604434Z", "completed_at": "2023-07-20T11:03:27.621833Z"}, {"name": "execute", "started_at": "2023-07-20T11:03:27.626001Z", "completed_at": "2023-07-20T11:07:57.962860Z"}], "thread_id": "Thread-1", "execution_time": 270.3785376548767, "adapter_response": {"_message": "SELECT", "code": "SELECT", "rows_affected": -1}, "message": "SELECT", "failures": null, "unique_id": "model.gtm_id.idn_hcp_engagement"}, {"status": "pass", "timing": [{"name": "compile", "started_at": "2023-07-20T11:07:57.998018Z", "completed_at": "2023-07-20T11:07:58.047249Z"}, {"name": "execute", "started_at": "2023-07-20T11:07:58.051477Z", "completed_at": "2023-07-20T11:07:59.757773Z"}], "thread_id": "Thread-3", "execution_time": 1.8028626441955566, "adapter_response": {}, "message": null, "failures": 0, "unique_id": "test.gtm_id.accepted_values_idn_hcp_engagement_ta__Above_Brand__Breast_Cancer__Hematology__Liver_Gi__Lung_Cancer_PAN__Specialty_Care.b566f367e3"}, {"status": "pass", "timing": [{"name": "compile", "started_at": "2023-07-20T11:07:58.019976Z", "completed_at": "2023-07-20T11:08:01.912708Z"}, {"name": "execute", "started_at": "2023-07-20T11:08:01.913919Z", "completed_at": "2023-07-20T11:08:01.987415Z"}], "thread_id": "Thread-2", "execution_time": 4.013685703277588, "adapter_response": {}, "message": null, "failures": 0, "unique_id": "test.gtm_id.dbt_expectations_expect_column_to_exist_idn_hcp_engagement_date.98e18c8417"}, {"status": "pass", "timing": [{"name": "compile", "started_at": "2023-07-20T11:07:58.033958Z", "completed_at": "2023-07-20T11:08:02.087499Z"}, {"name": "execute", "started_at": "2023-07-20T11:08:02.089438Z", "completed_at": "2023-07-20T11:08:02.137287Z"}], "thread_id": "Thread-1", "execution_time": 4.15973424911499, "adapter_response": {}, "message": null, "failures": 0, "unique_id": "test.gtm_id.dbt_expectations_expect_column_to_exist_idn_hcp_engagement_email.dfcfdbc5b9"}, {"status": "pass", "timing": [{"name": "compile", "started_at": "2023-07-20T11:07:58.008912Z", "completed_at": "2023-07-20T11:08:02.142573Z"}, {"name": "execute", "started_at": "2023-07-20T11:08:02.143692Z", "completed_at": "2023-07-20T11:08:02.223298Z"}], "thread_id": "Thread-4", "execution_time": 4.2470152378082275, "adapter_response": {}, "message": null, "failures": 0, "unique_id": "test.gtm_id.dbt_expectations_expect_column_to_exist_idn_hcp_engagement_channel.23e94164e2"}, {"status": "pass", "timing": [{"name": "compile", "started_at": "2023-07-20T11:07:59.798475Z", "completed_at": "2023-07-20T11:08:02.592835Z"}, {"name": "execute", "started_at": "2023-07-20T11:08:02.594096Z", "completed_at": "2023-07-20T11:08:02.604820Z"}], "thread_id": "Thread-3", "execution_time": 2.8301985263824463, "adapter_response": {}, "message": null, "failures": 0, "unique_id": "test.gtm_id.dbt_expectations_expect_column_to_exist_idn_hcp_engagement_end_status.6900202630"}, {"status": "pass", "timing": [{"name": "compile", "started_at": "2023-07-20T11:08:02.012043Z", "completed_at": "2023-07-20T11:08:05.093486Z"}, {"name": "execute", "started_at": "2023-07-20T11:08:05.094650Z", "completed_at": "2023-07-20T11:08:05.177998Z"}], "thread_id": "Thread-2", "execution_time": 3.1815249919891357, "adapter_response": {}, "message": null, "failures": 0, "unique_id": "test.gtm_id.dbt_expectations_expect_column_to_exist_idn_hcp_engagement_hcp_name.41479ebf6d"}, {"status": "pass", "timing": [{"name": "compile", "started_at": "2023-07-20T11:08:02.162013Z", "completed_at": "2023-07-20T11:08:05.170373Z"}, {"name": "execute", "started_at": "2023-07-20T11:08:05.171705Z", "completed_at": "2023-07-20T11:08:05.247756Z"}], "thread_id": "Thread-1", "execution_time": 3.102104663848877, "adapter_response": {}, "message": null, "failures": 0, "unique_id": "test.gtm_id.dbt_expectations_expect_column_to_exist_idn_hcp_engagement_hospital.5d9807d952"}, {"status": "pass", "timing": [{"name": "compile", "started_at": "2023-07-20T11:08:02.244067Z", "completed_at": "2023-07-20T11:08:05.942748Z"}, {"name": "execute", "started_at": "2023-07-20T11:08:05.943943Z", "completed_at": "2023-07-20T11:08:06.047374Z"}], "thread_id": "Thread-4", "execution_time": 3.8250675201416016, "adapter_response": {}, "message": null, "failures": 0, "unique_id": "test.gtm_id.dbt_expectations_expect_column_to_exist_idn_hcp_engagement_insights.31217ec9fd"}, {"status": "pass", "timing": [{"name": "compile", "started_at": "2023-07-20T11:08:02.631972Z", "completed_at": "2023-07-20T11:08:06.371685Z"}, {"name": "execute", "started_at": "2023-07-20T11:08:06.372918Z", "completed_at": "2023-07-20T11:08:06.499186Z"}], "thread_id": "Thread-3", "execution_time": 3.888579845428467, "adapter_response": {}, "message": null, "failures": 0, "unique_id": "test.gtm_id.dbt_expectations_expect_column_to_exist_idn_hcp_engagement_insights_owner.780db20084"}, {"status": "pass", "timing": [{"name": "compile", "started_at": "2023-07-20T11:08:05.196371Z", "completed_at": "2023-07-20T11:08:07.162647Z"}, {"name": "execute", "started_at": "2023-07-20T11:08:07.163874Z", "completed_at": "2023-07-20T11:08:07.185468Z"}], "thread_id": "Thread-2", "execution_time": 2.0065908432006836, "adapter_response": {}, "message": null, "failures": 0, "unique_id": "test.gtm_id.dbt_expectations_expect_column_to_exist_idn_hcp_engagement_product.878a53c948"}, {"status": "pass", "timing": [{"name": "compile", "started_at": "2023-07-20T11:08:06.072116Z", "completed_at": "2023-07-20T11:08:07.393026Z"}, {"name": "execute", "started_at": "2023-07-20T11:08:07.394374Z", "completed_at": "2023-07-20T11:08:07.420573Z"}], "thread_id": "Thread-4", "execution_time": 1.3670480251312256, "adapter_response": {}, "message": null, "failures": 0, "unique_id": "test.gtm_id.dbt_expectations_expect_column_to_exist_idn_hcp_engagement_specialty.d3ef60b4a1"}, {"status": "pass", "timing": [{"name": "compile", "started_at": "2023-07-20T11:08:05.266180Z", "completed_at": "2023-07-20T11:08:07.422381Z"}, {"name": "execute", "started_at": "2023-07-20T11:08:07.423510Z", "completed_at": "2023-07-20T11:08:07.455744Z"}], "thread_id": "Thread-1", "execution_time": 2.2089343070983887, "adapter_response": {}, "message": null, "failures": 0, "unique_id": "test.gtm_id.dbt_expectations_expect_column_to_exist_idn_hcp_engagement_sms.48b0be73c1"}, {"status": "pass", "timing": [{"name": "compile", "started_at": "2023-07-20T11:08:07.477818Z", "completed_at": "2023-07-20T11:08:07.488946Z"}, {"name": "execute", "started_at": "2023-07-20T11:08:07.490127Z", "completed_at": "2023-07-20T11:08:07.719887Z"}], "thread_id": "Thread-1", "execution_time": 0.27776265144348145, "adapter_response": {}, "message": null, "failures": 0, "unique_id": "test.gtm_id.not_null_idn_hcp_engagement_channel.80891c55e2"}, {"status": "pass", "timing": [{"name": "compile", "started_at": "2023-07-20T11:08:06.523592Z", "completed_at": "2023-07-20T11:08:07.971671Z"}, {"name": "execute", "started_at": "2023-07-20T11:08:07.973613Z", "completed_at": "2023-07-20T11:08:08.023078Z"}], "thread_id": "Thread-3", "execution_time": 1.517695426940918, "adapter_response": {}, "message": null, "failures": 0, "unique_id": "test.gtm_id.dbt_expectations_expect_column_to_exist_idn_hcp_engagement_ta.26f55d5568"}, {"status": "warn", "timing": [{"name": "compile", "started_at": "2023-07-20T11:08:07.758195Z", "completed_at": "2023-07-20T11:08:07.764197Z"}, {"name": "execute", "started_at": "2023-07-20T11:08:07.765263Z", "completed_at": "2023-07-20T11:08:08.064429Z"}], "thread_id": "Thread-1", "execution_time": 0.3385658264160156, "adapter_response": {}, "message": "Got 1 result, configured to warn if != 0", "failures": 1, "unique_id": "test.gtm_id.not_null_idn_hcp_engagement_date.a91306074a"}, {"status": "pass", "timing": [{"name": "compile", "started_at": "2023-07-20T11:08:07.205811Z", "completed_at": "2023-07-20T11:08:08.299196Z"}, {"name": "execute", "started_at": "2023-07-20T11:08:08.300393Z", "completed_at": "2023-07-20T11:08:08.318288Z"}], "thread_id": "Thread-2", "execution_time": 1.147641897201538, "adapter_response": {}, "message": null, "failures": 0, "unique_id": "test.gtm_id.dbt_expectations_expect_column_to_exist_idn_hcp_engagement_uci.6d255f1e4a"}, {"status": "warn", "timing": [{"name": "compile", "started_at": "2023-07-20T11:08:08.100408Z", "completed_at": "2023-07-20T11:08:08.108842Z"}, {"name": "execute", "started_at": "2023-07-20T11:08:08.110766Z", "completed_at": "2023-07-20T11:08:08.420637Z"}], "thread_id": "Thread-1", "execution_time": 0.3582329750061035, "adapter_response": {}, "message": "Got 407 results, configured to warn if >10", "failures": 407, "unique_id": "test.gtm_id.not_null_idn_hcp_engagement_uci.754fac1bba"}, {"status": "pass", "timing": [{"name": "compile", "started_at": "2023-07-20T11:08:07.443233Z", "completed_at": "2023-07-20T11:08:08.559968Z"}, {"name": "execute", "started_at": "2023-07-20T11:08:08.561260Z", "completed_at": "2023-07-20T11:08:08.578002Z"}], "thread_id": "Thread-4", "execution_time": 1.1514184474945068, "adapter_response": {}, "message": null, "failures": 0, "unique_id": "test.gtm_id.dbt_expectations_expect_column_to_exist_idn_hcp_engagement_wa_query_details.5ec20b236d"}, {"status": "pass", "timing": [{"name": "compile", "started_at": "2023-07-20T11:08:08.047187Z", "completed_at": "2023-07-20T11:08:08.053506Z"}, {"name": "execute", "started_at": "2023-07-20T11:08:08.054608Z", "completed_at": "2023-07-20T11:08:09.374279Z"}], "thread_id": "Thread-3", "execution_time": 1.3562159538269043, "adapter_response": {}, "message": null, "failures": 0, "unique_id": "test.gtm_id.not_null_idn_hcp_engagement_end_status.c18407c86e"}]
-# output: [["model.gtm_id.idn_hcp_engagement", 270.3785376548767]]
-def get_unique_ids_and_execution_time(run_results):
-    unique_ids_and_execution_time = []
-    for result in run_results['results']:
-        unique_ids_and_execution_time.append([result['unique_id'], result['execution_time']])
-    return unique_ids_and_execution_time
+    # write a function that takes nodes and run_results unique_id and execution_time and maps the unique_id to the nodes and returns a dictionary of node:weight where weight is execution_time
+    # when an execution_time is not found for a node in nodes, set the weight to 0
+    # input: nodes, run_results
+    # output: dictionary of node:weight
+    # example: nodes = ["model.gtm_germany.deu_ims_rpm_transactions_product_line", "model.gtm_germany.deu_ims_rpm_master"], run_results = [{"unique_id": "model.gtm_germany.deu_ims_rpm_transactions_product_line", "execution_time": 0.1}, {"unique_id": "model.gtm_germany.deu_ims_rpm_master", "execution_time": 0.2}]
+    # output: {"model.gtm_germany.deu_ims_rpm_transactions_product_line": 0.1, "model.gtm_germany.deu_ims_rpm_master": 0.2}
+    def get_unique_ids_and_execution_time(self,nodes,run_results):
+        for node in nodes:
+            for result in run_results:
+                if node == result['unique_id']:
+                    self.weights.append(result['execution_time'])
+            if node not in self.weights:
+                self.weights.append(0)
+        return dict(zip(nodes, self.weights))
 
-# write a function that intakes a dictionary of nodes and their neighbors and returns a list of the nodes that have no parents
-# input: graph
-# output: list of start nodes
-# example: graph = {"model.gtm_germany.deu_ims_rpm_transactions_product_line": ["model.gtm_germany.deu_ims_rpm_master", "model.gtm_germany.deu_ims_rpm_master"], "model.gtm_germany.deu_ims_rpm_master": []}
-# output: ["model.gtm_germany.deu_ims_rpm_transactions_product_line"]
-# graph = {"model.gtm_germany.deu_ims_rpm_transactions_product_line": ["model.gtm_germany.deu_ims_rpm_master", "model.gtm_germany.deu_ims_rpm_master"], "model.gtm_germany.deu_ims_rpm_master": []}
-def get_start_nodes(graph):
-    start_nodes = []
-    for node in graph:
-        if graph[node] == []:
-            start_nodes.append(node)
-    return start_nodes
+    # write a function that takes a dictionary of nodes, their children in a list, and the weight of the nodes and returns a list of edges in a tuple, if no weight is found, set the weight to 0
+    # if weight[node] returns a KeyError, set the weight to 0!
+    # input: parent_map and weights
+    # output: list of edges and weights
+    # example: parent_map = {"model.gtm_germany.deu_ims_rpm_transactions_product_line": ["model.gtm_germany.deu_ims_rpm_master", "model.gtm_germany.deu_ims_rpm_master"], "model.gtm_germany.deu_ims_rpm_master": []}, weights = {"model.gtm_germany.deu_ims_rpm_transactions_product_line": 0.1, "model.gtm_germany.deu_ims_rpm_master": 0.2}
+    # output: [("model.gtm_germany.deu_ims_rpm_transactions_product_line", "model.gtm_germany.deu_ims_rpm_master", 0.1), ("model.gtm_germany.deu_ims_rpm_transactions_product_line", "model.gtm_germany.deu_ims_rpm_master", 0.1)]
+    def get_edges_and_weights(self,child_map,weights):
+        for node in child_map:
+            for child in child_map[node]:
+                try:
+                    self.edges.append((node, child, weights[node]))
+                except KeyError:
+                    self.edges.append((node, child, 0.0))
+        return self.edges
+        
+
+    # write a function that intakes a dictionary of nodes and their neighbors and returns a list of the nodes that have no parents and start with 'model.' or 'source.'
+    # input: graph
+    # output: list of start nodes
+    # example: graph = {"model.gtm_germany.deu_ims_rpm_transactions_product_line": ["model.gtm_germany.deu_ims_rpm_master", "model.gtm_germany.deu_ims_rpm_master"], "model.gtm_germany.deu_ims_rpm_master": []}
+    # output: ["model.gtm_germany.deu_ims_rpm_transactions_product_line"]
+    # graph = {"model.gtm_germany.deu_ims_rpm_transactions_product_line": ["model.gtm_germany.deu_ims_rpm_master", "model.gtm_germany.deu_ims_rpm_master"], "model.gtm_germany.deu_ims_rpm_master": []}
+    def get_start_nodes(self,graph):
+        for node in graph:
+            if graph[node] == [] and (node.startswith('model.') or node.startswith('source.')):
+                self.start_nodes.append(node)
+        return self.start_nodes

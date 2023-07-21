@@ -4,29 +4,24 @@
 import requests, json
 
 class Discovery:
-    def __init__(self, account_id, job_id, token, file_method=False):
-        self.account_id = account_id
-        self.job_id = job_id
-        self.token = token
-        if file_method:
-            self.manifest, self.run_results = self.query_discovery_api()
-        else:
-            self.manifest, self.run_results = self.query_discovery_api()
+    def __init__(self):
+        self.manifest = {}
+        self.run_results = {}
 
-    def query_discovery_api(self):
-        HEADERS = {"Authorization": self.token}
+    def query_discovery_api(self, account_id, job_id, token):
+        HEADERS = {"Authorization": token}
         # get the manifest
-        manifest = requests.get(f"https://cloud.getdbt.com/api/v2/accounts/{self.account_id}/jobs/{self.job_id}/artifacts/manifest.json", headers=HEADERS)
+        self.manifest = requests.get(f"https://cloud.getdbt.com/api/v2/accounts/{account_id}/jobs/{job_id}/artifacts/manifest.json", headers=HEADERS)
         # get the run results
-        run_results = requests.get(f"https://cloud.getdbt.com/api/v2/accounts/{self.account_id}/jobs/{self.job_id}/artifacts/run_results.json", headers=HEADERS)
-        return manifest, run_results
+        self.run_results = requests.get(f"https://cloud.getdbt.com/api/v2/accounts/{account_id}/jobs/{job_id}/artifacts/run_results.json", headers=HEADERS)
+        return self.manifest, self.run_results
     
     def load_manifest_and_run_results(self, manifest_path, run_results_path):
         with open(manifest_path, 'r') as f:
             self.manifest = json.load(f)
         with open(run_results_path, 'r') as f:
             self.run_results = json.load(f)
-
+        return self.manifest, self.run_results
     
     def get_manifest_and_run_results(self):
         return self.manifest, self.run_results
