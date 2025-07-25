@@ -8,6 +8,7 @@ __pycache__
 .vscode
 .prefectignore
 env
+longest_paths.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
