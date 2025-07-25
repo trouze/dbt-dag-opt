@@ -5,12 +5,13 @@ This package uses [Fire](https://python-fire.readthedocs.io/en/latest/) to run l
 
 File path method
 ```
-python3 entrypoint.py --file_method=True --manifest_path='/path/to/my/manifest.json' --run_results_path='/path/to/my/run_results.json'
+python3 entrypoint.py --file_method=True --manifest_path='artifacts/manifest.json' --run_results_path='artifacts/run_results.json'
 ```
 
 dbt Cloud API
 ```
 python3 entrypoint.py --account_id='<my_id>' --job_id='<job_id>' --token='<api_token>'
+python3 entrypoint.py --base-url='https://cu288.us1.dbt.com' --account_id='70437463654419' --job_id='70437463655408' --token='dbtu_hayC4-EeNKK-lNbu5xYspNEhbLFeQK1ojfNXAC58J_qr2lRBwA'
 ```
 
 The utility will save a json file to your working directory that has information on the longest path in your DAG for each starting node (usually sources). It's recommended to use this information to divide and conquer what models you should seek to optimize in order to shorten your pipeline runtimes. 

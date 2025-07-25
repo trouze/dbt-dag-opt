@@ -8,12 +8,12 @@ class Discovery:
         self.manifest = {}
         self.run_results = {}
 
-    def query_discovery_api(self, account_id, job_id, token):
-        HEADERS = {"Authorization": token}
+    def query_discovery_api(self, base_url, account_id, job_id, token):
+        HEADERS = {"Authorization": "Bearer " + token}
         # get the manifest
-        self.manifest = requests.get(f"https://cloud.getdbt.com/api/v2/accounts/{account_id}/jobs/{job_id}/artifacts/manifest.json", headers=HEADERS)
+        self.manifest = requests.get(f"{base_url}/api/v2/accounts/{account_id}/jobs/{job_id}/artifacts/manifest.json", headers=HEADERS)
         # get the run results
-        self.run_results = requests.get(f"https://cloud.getdbt.com/api/v2/accounts/{account_id}/jobs/{job_id}/artifacts/run_results.json", headers=HEADERS)
+        self.run_results = requests.get(f"{base_url}/api/v2/accounts/{account_id}/jobs/{job_id}/artifacts/run_results.json", headers=HEADERS)
         return self.manifest, self.run_results
     
     def load_manifest_and_run_results(self, manifest_path, run_results_path):
