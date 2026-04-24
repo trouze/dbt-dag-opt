@@ -89,8 +89,32 @@ dbt-dag-opt replay [OPTIONS]
   --account-id / --job-id      dbt Cloud mode (same as analyze)
   -f, --format [text|json]     Output format  [default: text]
   --top-idle-gaps INTEGER      How many idle gaps to surface  [default: 10]
+  --warehouse-size TEXT        Snowflake size (XS, S, M, L, XL, 2XL…6XL); triggers cost overlay
+  --credits-per-hour FLOAT     Raw credits/hour for non-Snowflake adapters
+  --rate-per-credit FLOAT      USD per credit  [default: 2.0 (Standard On-Demand)]
+  --no-minimum-billing         Skip the 60s Snowflake minimum-billing floor
   -o, --output PATH            Write output to a file instead of stdout
 ```
+
+#### Cost overlay
+
+Pass `--warehouse-size` to translate wall-clock into dollars:
+
+```bash
+dbt-dag-opt replay \
+  --manifest target/manifest.json \
+  --run-results target/run_results.json \
+  --warehouse-size L
+```
+
+Four numbers frame the output:
+
+- **Run cost** — what this run actually billed (wall-clock × warehouse rate, with the 60s floor applied).
+- **Critical-path floor** — the irreducible cost of your slowest dependency chain. You can't beat this without making individual models faster.
+- **Headroom** — `run − floor`. The prize for better parallelization: what you could save if threads never sat idle.
+- **Idle cost** — the $ equivalent of thread-idle warehouse-seconds. Distinct from headroom: idle cost includes time spent waiting on long-tail critical-path models that can't be parallelized away.
+
+Defaults to $2.00/credit (Snowflake Standard On-Demand). Override with `--rate-per-credit` (Enterprise ≈ 3.0, Business Critical ≈ 4.0; check your contract). Non-Snowflake adapters: pass `--credits-per-hour N` instead of `--warehouse-size`.
 
 ### Output formats
 
@@ -110,11 +134,10 @@ Distances sum the execution time of every node along the path — that's the war
 
 ## What this is / isn't
 
-It **is** a CLI tool that points at the slowest chains in your DAG and — as of `replay` — the observed schedule that those chains actually produced.
+It **is** a CLI tool that points at the slowest chains in your DAG, reconstructs the observed schedule those chains produced (`replay`), and — with `--warehouse-size` — translates that schedule into dollars.
 
 It **isn't** (yet):
-- A predictive scheduler simulator. `replay` reconstructs what already happened; it doesn't yet project what would happen under a different `--threads N` or if you sped up a specific model. That "what-if" loop is planned next.
-- A cost model. Multiplying wall-clock × your warehouse rate is on you — a `--warehouse-size` flag is planned alongside the what-if loop.
+- A predictive scheduler simulator. `replay` reconstructs what already happened; it doesn't yet project what would happen under a different `--threads N` or if you sped up a specific model. That "what-if" loop is planned next, and will diff two cost reports to show projected $ savings.
 
 ## Development
 
