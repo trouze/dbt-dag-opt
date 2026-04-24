@@ -40,3 +40,26 @@ def test_render_table_contains_all_sources() -> None:
     out = render(_RESULTS, Format.TABLE)
     assert "src.a" in out
     assert "30.00" in out
+
+
+def test_render_table_show_full_path_renders_chain() -> None:
+    out = render(_RESULTS, Format.TABLE, show_full_path=True)
+    # full chain joined by arrows should appear verbatim for the longest path
+    assert "src.a → mid.a → end.a" in out
+
+
+def test_render_table_weights_adds_bottleneck_column() -> None:
+    weights = {"src.a": 5.0, "mid.a": 20.0, "end.a": 5.0, "src.b": 4.0, "end.b": 6.0, "src.c": 1.0}
+    out = render(_RESULTS, Format.TABLE, weights=weights)
+    # Bottleneck of the top path is mid.a at 20s
+    assert "Bottleneck" in out
+    assert "mid.a" in out
+    assert "20.00" in out
+
+
+def test_render_table_show_full_path_and_weights_together() -> None:
+    weights = {"src.a": 5.0, "mid.a": 20.0, "end.a": 5.0, "src.b": 4.0, "end.b": 6.0, "src.c": 1.0}
+    out = render(_RESULTS, Format.TABLE, show_full_path=True, weights=weights)
+    assert "src.a → mid.a → end.a" in out
+    assert "mid.a" in out
+    assert "20.00" in out

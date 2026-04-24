@@ -91,6 +91,13 @@ def analyze(
         int,
         typer.Option("--top", "-n", help="Show only the top N longest paths. Use 0 for all."),
     ] = 10,
+    show_path: Annotated[
+        bool,
+        typer.Option(
+            "--show-path",
+            help="Render the full chain of node ids in the table (table format only).",
+        ),
+    ] = False,
     output: Annotated[
         Path | None,
         typer.Option("--output", "-o", help="Write output to a file instead of stdout."),
@@ -114,7 +121,9 @@ def analyze(
         raise typer.Exit(code=1) from exc
 
     top_value: int | None = top if top > 0 else None
-    rendered = render(results, fmt, top=top_value)
+    rendered = render(
+        results, fmt, top=top_value, show_full_path=show_path, weights=dag.weights
+    )
 
     if output is not None:
         output.write_text(rendered, encoding="utf-8")

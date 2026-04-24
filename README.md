@@ -67,8 +67,11 @@ dbt-dag-opt analyze [OPTIONS]
   --token TEXT                 dbt Cloud API token  [env: DBT_CLOUD_TOKEN]
   -f, --format [json|jsonl|table]  Output format  [default: table]
   -n, --top INTEGER            Show only top N paths (0 = all)  [default: 10]
+  --show-path                  Render the full chain of node ids (table format)
   -o, --output PATH            Write output to a file instead of stdout
 ```
+
+The table includes a **Bottleneck** column that names the slowest model on each path. First-order optimization target: the bottleneck model on the #1 path. Watch for a bottleneck that repeats across multiple paths — that's shared-node leverage (optimizing one model helps several paths at once).
 
 ### `replay` — what actually happened
 
