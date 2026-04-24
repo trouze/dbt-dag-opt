@@ -10,6 +10,7 @@ from dbt_dag_opt.models import DagArtifacts
 
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
 DBT_DUGOUT_DIR = FIXTURES_DIR / "dbt_dugout"
+DEMO_PROJECT_DIR = FIXTURES_DIR / "demo_project"
 
 
 @pytest.fixture
@@ -48,6 +49,27 @@ def dbt_dugout_artifacts(
     with dbt_dugout_manifest_path.open() as fh:
         manifest = json.load(fh)
     with dbt_dugout_run_results_path.open() as fh:
+        run_results = json.load(fh)
+    return DagArtifacts(manifest=manifest, run_results=run_results)
+
+
+@pytest.fixture
+def demo_project_manifest_path() -> Path:
+    return DEMO_PROJECT_DIR / "manifest.json"
+
+
+@pytest.fixture
+def demo_project_run_results_path() -> Path:
+    return DEMO_PROJECT_DIR / "run_results.json"
+
+
+@pytest.fixture
+def demo_project_artifacts(
+    demo_project_manifest_path: Path, demo_project_run_results_path: Path
+) -> DagArtifacts:
+    with demo_project_manifest_path.open() as fh:
+        manifest = json.load(fh)
+    with demo_project_run_results_path.open() as fh:
         run_results = json.load(fh)
     return DagArtifacts(manifest=manifest, run_results=run_results)
 
