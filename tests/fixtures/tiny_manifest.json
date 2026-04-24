@@ -1,0 +1,31 @@
+{
+  "nodes": {
+    "model.demo.stg_orders":   {"name": "stg_orders"},
+    "model.demo.stg_customers": {"name": "stg_customers"},
+    "model.demo.int_orders":   {"name": "int_orders"},
+    "model.demo.dim_customers": {"name": "dim_customers"},
+    "model.demo.fact_orders":  {"name": "fact_orders"}
+  },
+  "sources": {
+    "source.demo.raw.orders":    {"name": "orders"},
+    "source.demo.raw.customers": {"name": "customers"}
+  },
+  "child_map": {
+    "source.demo.raw.orders":    ["model.demo.stg_orders"],
+    "source.demo.raw.customers": ["model.demo.stg_customers"],
+    "model.demo.stg_orders":     ["model.demo.int_orders"],
+    "model.demo.stg_customers":  ["model.demo.dim_customers", "model.demo.int_orders"],
+    "model.demo.int_orders":     ["model.demo.fact_orders"],
+    "model.demo.dim_customers":  ["model.demo.fact_orders"],
+    "model.demo.fact_orders":    []
+  },
+  "parent_map": {
+    "source.demo.raw.orders":    [],
+    "source.demo.raw.customers": [],
+    "model.demo.stg_orders":     ["source.demo.raw.orders"],
+    "model.demo.stg_customers":  ["source.demo.raw.customers"],
+    "model.demo.int_orders":     ["model.demo.stg_orders", "model.demo.stg_customers"],
+    "model.demo.dim_customers":  ["model.demo.stg_customers"],
+    "model.demo.fact_orders":    ["model.demo.int_orders", "model.demo.dim_customers"]
+  }
+}

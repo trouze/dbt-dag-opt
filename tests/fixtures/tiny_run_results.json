@@ -1,0 +1,11 @@
+{
+  "results": [
+    {"unique_id": "source.demo.raw.orders",    "execution_time": 0.0},
+    {"unique_id": "source.demo.raw.customers", "execution_time": 0.0},
+    {"unique_id": "model.demo.stg_orders",     "execution_time": 5.0},
+    {"unique_id": "model.demo.stg_customers",  "execution_time": 2.0},
+    {"unique_id": "model.demo.int_orders",     "execution_time": 10.0},
+    {"unique_id": "model.demo.dim_customers",  "execution_time": 3.0},
+    {"unique_id": "model.demo.fact_orders",    "execution_time": 20.0}
+  ]
+}
