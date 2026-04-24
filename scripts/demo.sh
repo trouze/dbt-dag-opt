@@ -6,15 +6,14 @@
 # shared bottleneck (int_game_events) sitting on three of the top longest paths.
 #
 # Usage:
-#   ./scripts/demo.sh
-#
-# Each command is echoed in bold before it runs, with a narration hint above.
-# Pause between commands by setting PAUSE=2 (default) or call with PAUSE=0 to
-# rush through for a dry-run.
+#   ./scripts/demo.sh                  # interactive: Enter advances each step
+#   AUTO=1 PAUSE=2 ./scripts/demo.sh   # non-interactive: 2s sleep per step
+#   AUTO=1 PAUSE=0 ./scripts/demo.sh   # rapid dry-run (CI smoke)
 
 set -euo pipefail
 
-PAUSE="${PAUSE:-2}"
+AUTO="${AUTO:-0}"
+PAUSE="${PAUSE:-0.5}"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 MANIFEST="$ROOT/tests/fixtures/demo_project/manifest.json"
 RUN_RESULTS="$ROOT/tests/fixtures/demo_project/run_results.json"
@@ -26,12 +25,21 @@ section() {
     printf "\033[1;36m▌ %s\033[0m\n" "$*"
     echo
 }
+wait_step() {
+    if [ "$AUTO" = "1" ]; then
+        sleep "$PAUSE"
+        return
+    fi
+    # Dim hint, then clear the line after Enter so the recording stays clean.
+    printf "\033[2m  ↵ \033[0m"
+    read -r _
+    printf "\033[1A\033[2K"
+}
 run() {
     bold "\$ $*"
-    sleep "$PAUSE"
+    wait_step
     eval "$@"
     echo
-    sleep "$PAUSE"
 }
 
 section "1 · Which paths through the DAG are actually slow?"
