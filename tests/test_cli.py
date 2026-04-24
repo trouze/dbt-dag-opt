@@ -130,3 +130,62 @@ def test_analyze_from_cloud(
     assert result.exit_code == 0, result.stdout
     payload = json.loads(result.stdout)
     assert "source.demo.raw.orders" in payload
+
+
+def test_replay_from_files_text(
+    dbt_dugout_manifest_path: Path, dbt_dugout_run_results_path: Path
+) -> None:
+    result = runner.invoke(
+        app,
+        [
+            "replay",
+            "--manifest",
+            str(dbt_dugout_manifest_path),
+            "--run-results",
+            str(dbt_dugout_run_results_path),
+        ],
+    )
+    assert result.exit_code == 0, result.stdout
+    assert "Run summary" in result.stdout
+    assert "Thread utilization" in result.stdout
+    assert "Observed critical path" in result.stdout
+
+
+def test_replay_from_files_json(
+    dbt_dugout_manifest_path: Path, dbt_dugout_run_results_path: Path
+) -> None:
+    result = runner.invoke(
+        app,
+        [
+            "replay",
+            "--manifest",
+            str(dbt_dugout_manifest_path),
+            "--run-results",
+            str(dbt_dugout_run_results_path),
+            "--format",
+            "json",
+        ],
+    )
+    assert result.exit_code == 0, result.stdout
+    payload = json.loads(result.stdout)
+    assert payload["thread_count"] == 4
+    assert len(payload["events"]) == 57
+    assert payload["critical_path"]
+
+
+def test_replay_rejects_both_modes(
+    dbt_dugout_manifest_path: Path, dbt_dugout_run_results_path: Path
+) -> None:
+    result = runner.invoke(
+        app,
+        [
+            "replay",
+            "--manifest",
+            str(dbt_dugout_manifest_path),
+            "--run-results",
+            str(dbt_dugout_run_results_path),
+            "--account-id",
+            "42",
+        ],
+    )
+    assert result.exit_code != 0
