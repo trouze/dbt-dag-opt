@@ -1,0 +1,1118 @@
+{
+  "metadata": {
+    "generated_at": "2026-04-24T12:00:00+00:00",
+    "dbt_version": "1.8.0",
+    "invocation_id": "demo-fixture"
+  },
+  "results": [
+    {
+      "unique_id": "model.demo.stg_games",
+      "thread_id": "Thread-1 (worker)",
+      "status": "success",
+      "execution_time": 18.5,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:00:00+00:00",
+          "completed_at": "2026-04-24T12:00:00.300000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:00:00.300000+00:00",
+          "completed_at": "2026-04-24T12:00:18.500000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "model.demo.stg_game_umpires",
+      "thread_id": "Thread-2 (worker)",
+      "status": "success",
+      "execution_time": 11.2,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:00:00+00:00",
+          "completed_at": "2026-04-24T12:00:00.300000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:00:00.300000+00:00",
+          "completed_at": "2026-04-24T12:00:11.200000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "model.demo.stg_players",
+      "thread_id": "Thread-3 (worker)",
+      "status": "success",
+      "execution_time": 22.3,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:00:00+00:00",
+          "completed_at": "2026-04-24T12:00:00.300000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:00:00.300000+00:00",
+          "completed_at": "2026-04-24T12:00:22.300000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "model.demo.stg_player_contracts",
+      "thread_id": "Thread-4 (worker)",
+      "status": "success",
+      "execution_time": 14.6,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:00:00+00:00",
+          "completed_at": "2026-04-24T12:00:00.300000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:00:00.300000+00:00",
+          "completed_at": "2026-04-24T12:00:14.600000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "model.demo.stg_teams",
+      "thread_id": "Thread-2 (worker)",
+      "status": "success",
+      "execution_time": 12.1,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:00:11.200000+00:00",
+          "completed_at": "2026-04-24T12:00:11.500000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:00:11.500000+00:00",
+          "completed_at": "2026-04-24T12:00:23.300000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "model.demo.stg_rosters",
+      "thread_id": "Thread-4 (worker)",
+      "status": "success",
+      "execution_time": 15.7,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:00:14.600000+00:00",
+          "completed_at": "2026-04-24T12:00:14.900000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:00:14.900000+00:00",
+          "completed_at": "2026-04-24T12:00:30.300000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "model.demo.stg_at_bats",
+      "thread_id": "Thread-1 (worker)",
+      "status": "success",
+      "execution_time": 28.4,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:00:18.500000+00:00",
+          "completed_at": "2026-04-24T12:00:18.800000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:00:18.800000+00:00",
+          "completed_at": "2026-04-24T12:00:46.900000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "model.demo.stg_pitches",
+      "thread_id": "Thread-3 (worker)",
+      "status": "success",
+      "execution_time": 35.9,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:00:22.300000+00:00",
+          "completed_at": "2026-04-24T12:00:22.600000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:00:22.600000+00:00",
+          "completed_at": "2026-04-24T12:00:58.200000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.not_null_stg_game_umpires_id.nn06",
+      "thread_id": "Thread-2 (worker)",
+      "status": "success",
+      "execution_time": 3.7,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:00:23.300000+00:00",
+          "completed_at": "2026-04-24T12:00:23.600000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:00:23.600000+00:00",
+          "completed_at": "2026-04-24T12:00:27+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.unique_stg_game_umpires_id.uq06",
+      "thread_id": "Thread-2 (worker)",
+      "status": "success",
+      "execution_time": 2.66,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:00:27+00:00",
+          "completed_at": "2026-04-24T12:00:27.300000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:00:27.300000+00:00",
+          "completed_at": "2026-04-24T12:00:29.660000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.not_null_stg_player_contracts_id.nn07",
+      "thread_id": "Thread-2 (worker)",
+      "status": "success",
+      "execution_time": 3.85,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:00:29.660000+00:00",
+          "completed_at": "2026-04-24T12:00:29.960000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:00:29.960000+00:00",
+          "completed_at": "2026-04-24T12:00:33.510000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.not_null_stg_games_id.nn00",
+      "thread_id": "Thread-4 (worker)",
+      "status": "success",
+      "execution_time": 2.8,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:00:30.300000+00:00",
+          "completed_at": "2026-04-24T12:00:30.600000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:00:30.600000+00:00",
+          "completed_at": "2026-04-24T12:00:33.100000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.unique_stg_games_id.uq00",
+      "thread_id": "Thread-4 (worker)",
+      "status": "success",
+      "execution_time": 2.0,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:00:33.100000+00:00",
+          "completed_at": "2026-04-24T12:00:33.400000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:00:33.400000+00:00",
+          "completed_at": "2026-04-24T12:00:35.100000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.not_null_stg_players_id.nn01",
+      "thread_id": "Thread-2 (worker)",
+      "status": "success",
+      "execution_time": 2.95,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:00:33.510000+00:00",
+          "completed_at": "2026-04-24T12:00:33.810000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:00:33.810000+00:00",
+          "completed_at": "2026-04-24T12:00:36.460000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.not_null_stg_teams_id.nn02",
+      "thread_id": "Thread-4 (worker)",
+      "status": "success",
+      "execution_time": 3.1,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:00:35.100000+00:00",
+          "completed_at": "2026-04-24T12:00:35.400000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:00:35.400000+00:00",
+          "completed_at": "2026-04-24T12:00:38.200000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.unique_stg_teams_id.uq02",
+      "thread_id": "Thread-2 (worker)",
+      "status": "success",
+      "execution_time": 2.22,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:00:36.460000+00:00",
+          "completed_at": "2026-04-24T12:00:36.760000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:00:36.760000+00:00",
+          "completed_at": "2026-04-24T12:00:38.680000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "model.demo.int_team_roster",
+      "thread_id": "Thread-4 (worker)",
+      "status": "success",
+      "execution_time": 68.5,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:00:38.200000+00:00",
+          "completed_at": "2026-04-24T12:00:38.500000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:00:38.500000+00:00",
+          "completed_at": "2026-04-24T12:01:46.700000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "model.demo.dim_roster",
+      "thread_id": "Thread-2 (worker)",
+      "status": "success",
+      "execution_time": 42.8,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:00:38.680000+00:00",
+          "completed_at": "2026-04-24T12:00:38.980000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:00:38.980000+00:00",
+          "completed_at": "2026-04-24T12:01:21.480000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.not_null_stg_rosters_id.nn03",
+      "thread_id": "Thread-1 (worker)",
+      "status": "success",
+      "execution_time": 3.25,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:00:46.900000+00:00",
+          "completed_at": "2026-04-24T12:00:47.200000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:00:47.200000+00:00",
+          "completed_at": "2026-04-24T12:00:50.150000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "model.demo.int_player_stats",
+      "thread_id": "Thread-1 (worker)",
+      "status": "success",
+      "execution_time": 92.1,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:00:50.150000+00:00",
+          "completed_at": "2026-04-24T12:00:50.450000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:00:50.450000+00:00",
+          "completed_at": "2026-04-24T12:02:22.250000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.not_null_stg_at_bats_id.nn04",
+      "thread_id": "Thread-3 (worker)",
+      "status": "success",
+      "execution_time": 3.4,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:00:58.200000+00:00",
+          "completed_at": "2026-04-24T12:00:58.500000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:00:58.500000+00:00",
+          "completed_at": "2026-04-24T12:01:01.600000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.unique_stg_at_bats_id.uq04",
+      "thread_id": "Thread-3 (worker)",
+      "status": "success",
+      "execution_time": 2.44,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:01:01.600000+00:00",
+          "completed_at": "2026-04-24T12:01:01.900000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:01:01.900000+00:00",
+          "completed_at": "2026-04-24T12:01:04.040000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "model.demo.int_game_events",
+      "thread_id": "Thread-3 (worker)",
+      "status": "success",
+      "execution_time": 182.4,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:01:04.040000+00:00",
+          "completed_at": "2026-04-24T12:01:04.340000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:01:04.340000+00:00",
+          "completed_at": "2026-04-24T12:04:06.440000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "model.demo.int_pitching_log",
+      "thread_id": "Thread-2 (worker)",
+      "status": "success",
+      "execution_time": 71.8,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:01:21.480000+00:00",
+          "completed_at": "2026-04-24T12:01:21.780000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:01:21.780000+00:00",
+          "completed_at": "2026-04-24T12:02:33.280000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.not_null_stg_pitches_id.nn05",
+      "thread_id": "Thread-4 (worker)",
+      "status": "success",
+      "execution_time": 3.55,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:01:46.700000+00:00",
+          "completed_at": "2026-04-24T12:01:47+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:01:47+00:00",
+          "completed_at": "2026-04-24T12:01:50.250000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.not_null_dim_roster_id.nn18",
+      "thread_id": "Thread-4 (worker)",
+      "status": "success",
+      "execution_time": 3.5,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:01:50.250000+00:00",
+          "completed_at": "2026-04-24T12:01:50.550000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:01:50.550000+00:00",
+          "completed_at": "2026-04-24T12:01:53.750000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.unique_dim_roster_id.uq18",
+      "thread_id": "Thread-4 (worker)",
+      "status": "success",
+      "execution_time": 2.18,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:01:53.750000+00:00",
+          "completed_at": "2026-04-24T12:01:54.050000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:01:54.050000+00:00",
+          "completed_at": "2026-04-24T12:01:55.930000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.not_null_int_team_roster_id.nn10",
+      "thread_id": "Thread-4 (worker)",
+      "status": "success",
+      "execution_time": 4.3,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:01:55.930000+00:00",
+          "completed_at": "2026-04-24T12:01:56.230000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:01:56.230000+00:00",
+          "completed_at": "2026-04-24T12:02:00.230000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.unique_int_team_roster_id.uq10",
+      "thread_id": "Thread-4 (worker)",
+      "status": "success",
+      "execution_time": 3.1,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:02:00.230000+00:00",
+          "completed_at": "2026-04-24T12:02:00.530000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:02:00.530000+00:00",
+          "completed_at": "2026-04-24T12:02:03.330000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "model.demo.fct_player_season",
+      "thread_id": "Thread-4 (worker)",
+      "status": "success",
+      "execution_time": 103.7,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:02:22.250000+00:00",
+          "completed_at": "2026-04-24T12:02:22.550000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:02:22.550000+00:00",
+          "completed_at": "2026-04-24T12:04:05.950000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.not_null_int_player_stats_id.nn09",
+      "thread_id": "Thread-1 (worker)",
+      "status": "success",
+      "execution_time": 4.15,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:02:22.250000+00:00",
+          "completed_at": "2026-04-24T12:02:22.550000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:02:22.550000+00:00",
+          "completed_at": "2026-04-24T12:02:26.400000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "model.demo.fct_pitcher_season",
+      "thread_id": "Thread-1 (worker)",
+      "status": "success",
+      "execution_time": 88.4,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:02:33.280000+00:00",
+          "completed_at": "2026-04-24T12:02:33.580000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:02:33.580000+00:00",
+          "completed_at": "2026-04-24T12:04:01.680000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.not_null_int_pitching_log_id.nn11",
+      "thread_id": "Thread-2 (worker)",
+      "status": "success",
+      "execution_time": 4.45,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:02:33.280000+00:00",
+          "completed_at": "2026-04-24T12:02:33.580000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:02:33.580000+00:00",
+          "completed_at": "2026-04-24T12:02:37.730000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.not_null_fct_pitcher_season_id.nn16",
+      "thread_id": "Thread-2 (worker)",
+      "status": "success",
+      "execution_time": 3.2,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:04:01.680000+00:00",
+          "completed_at": "2026-04-24T12:04:01.980000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:04:01.980000+00:00",
+          "completed_at": "2026-04-24T12:04:04.880000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.unique_fct_pitcher_season_id.uq16",
+      "thread_id": "Thread-1 (worker)",
+      "status": "success",
+      "execution_time": 3.76,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:04:01.680000+00:00",
+          "completed_at": "2026-04-24T12:04:01.980000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:04:01.980000+00:00",
+          "completed_at": "2026-04-24T12:04:05.440000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.not_null_fct_player_season_id.nn15",
+      "thread_id": "Thread-2 (worker)",
+      "status": "success",
+      "execution_time": 3.05,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:04:05.950000+00:00",
+          "completed_at": "2026-04-24T12:04:06.250000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:04:06.250000+00:00",
+          "completed_at": "2026-04-24T12:04:09+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "model.demo.int_batter_matchups",
+      "thread_id": "Thread-1 (worker)",
+      "status": "success",
+      "execution_time": 84.3,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:04:06.440000+00:00",
+          "completed_at": "2026-04-24T12:04:06.740000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:04:06.740000+00:00",
+          "completed_at": "2026-04-24T12:05:30.740000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "model.demo.int_pitcher_matchups",
+      "thread_id": "Thread-4 (worker)",
+      "status": "success",
+      "execution_time": 79.9,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:04:06.440000+00:00",
+          "completed_at": "2026-04-24T12:04:06.740000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:04:06.740000+00:00",
+          "completed_at": "2026-04-24T12:05:26.340000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "model.demo.fct_game_box_score",
+      "thread_id": "Thread-3 (worker)",
+      "status": "success",
+      "execution_time": 95.2,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:04:06.440000+00:00",
+          "completed_at": "2026-04-24T12:04:06.740000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:04:06.740000+00:00",
+          "completed_at": "2026-04-24T12:05:41.640000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.not_null_int_game_events_id.nn08",
+      "thread_id": "Thread-2 (worker)",
+      "status": "success",
+      "execution_time": 4.0,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:04:09+00:00",
+          "completed_at": "2026-04-24T12:04:09.300000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:04:09.300000+00:00",
+          "completed_at": "2026-04-24T12:04:13+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.unique_int_game_events_id.uq08",
+      "thread_id": "Thread-2 (worker)",
+      "status": "success",
+      "execution_time": 2.88,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:04:13+00:00",
+          "completed_at": "2026-04-24T12:04:13.300000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:04:13.300000+00:00",
+          "completed_at": "2026-04-24T12:04:15.880000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.not_null_int_pitcher_matchups_id.nn13",
+      "thread_id": "Thread-2 (worker)",
+      "status": "success",
+      "execution_time": 4.75,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:05:26.340000+00:00",
+          "completed_at": "2026-04-24T12:05:26.640000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:05:26.640000+00:00",
+          "completed_at": "2026-04-24T12:05:31.090000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "model.demo.fct_batter_vs_pitcher",
+      "thread_id": "Thread-4 (worker)",
+      "status": "success",
+      "execution_time": 124.6,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:05:30.740000+00:00",
+          "completed_at": "2026-04-24T12:05:31.040000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:05:31.040000+00:00",
+          "completed_at": "2026-04-24T12:07:35.340000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.not_null_int_batter_matchups_id.nn12",
+      "thread_id": "Thread-1 (worker)",
+      "status": "success",
+      "execution_time": 4.6,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:05:30.740000+00:00",
+          "completed_at": "2026-04-24T12:05:31.040000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:05:31.040000+00:00",
+          "completed_at": "2026-04-24T12:05:35.340000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.unique_int_batter_matchups_id.uq12",
+      "thread_id": "Thread-2 (worker)",
+      "status": "success",
+      "execution_time": 3.32,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:05:31.090000+00:00",
+          "completed_at": "2026-04-24T12:05:31.390000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:05:31.390000+00:00",
+          "completed_at": "2026-04-24T12:05:34.410000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.not_null_fct_game_box_score_id.nn14",
+      "thread_id": "Thread-2 (worker)",
+      "status": "success",
+      "execution_time": 2.9,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:05:41.640000+00:00",
+          "completed_at": "2026-04-24T12:05:41.940000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:05:41.940000+00:00",
+          "completed_at": "2026-04-24T12:05:44.540000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.unique_fct_game_box_score_id.uq14",
+      "thread_id": "Thread-1 (worker)",
+      "status": "success",
+      "execution_time": 3.54,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:05:41.640000+00:00",
+          "completed_at": "2026-04-24T12:05:41.940000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:05:41.940000+00:00",
+          "completed_at": "2026-04-24T12:05:45.180000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    },
+    {
+      "unique_id": "test.demo.not_null_fct_batter_vs_pitcher_id.nn17",
+      "thread_id": "Thread-3 (worker)",
+      "status": "success",
+      "execution_time": 3.35,
+      "timing": [
+        {
+          "name": "compile",
+          "started_at": "2026-04-24T12:07:35.340000+00:00",
+          "completed_at": "2026-04-24T12:07:35.640000+00:00"
+        },
+        {
+          "name": "execute",
+          "started_at": "2026-04-24T12:07:35.640000+00:00",
+          "completed_at": "2026-04-24T12:07:38.690000+00:00"
+        }
+      ],
+      "message": null,
+      "failures": null,
+      "adapter_response": {
+        "rows_affected": 0
+      }
+    }
+  ],
+  "elapsed_time": 458.69,
+  "args": {
+    "threads": 4,
+    "target": "prod"
+  }
+}

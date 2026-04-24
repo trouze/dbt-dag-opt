@@ -139,6 +139,16 @@ It **is** a CLI tool that points at the slowest chains in your DAG, reconstructs
 It **isn't** (yet):
 - A predictive scheduler simulator. `replay` reconstructs what already happened; it doesn't yet project what would happen under a different `--threads N` or if you sped up a specific model. That "what-if" loop is planned next, and will diff two cost reports to show projected $ savings.
 
+## Demo
+
+An end-to-end walkthrough you can record or run locally:
+
+```bash
+./scripts/demo.sh
+```
+
+Drives every subcommand (`analyze`, `analyze --show-path`, `replay`, `replay --warehouse-size L/XL`, `--credits-per-hour` for non-Snowflake, JSON + `jq`) against a synthetic 24-model baseball-analytics DAG in `tests/fixtures/demo_project/`. Set `PAUSE=0` to dry-run without narration beats.
+
 ## Development
 
 ```bash
@@ -146,6 +156,12 @@ uv sync --all-extras
 uv run ruff check .
 uv run mypy src
 uv run pytest
+```
+
+Regenerate the demo fixture after editing its topology:
+
+```bash
+uv run python tests/fixtures/generate_demo_fixture.py
 ```
 
 ## License
