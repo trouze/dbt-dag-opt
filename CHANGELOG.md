@@ -9,6 +9,8 @@ All notable changes to this project will be documented in this file. The format 
 - `dbt-dag-opt replay` subcommand: reconstructs the observed schedule from `run_results.json`'s `thread_id` + per-phase `timing` data, joined against `manifest.json`'s `parent_map`. Reports per-thread utilization, observed critical path (walked backwards from the last-completing node), and top idle gaps with parent-node attribution.
 - Output formats for `replay`: `text` (rich terminal summary, default) and `json` (full replay report, including raw events).
 - Integration fixture at `tests/fixtures/dbt_dugout/` — a real Snowflake dbt run (57 nodes, 4 threads) used to smoke-test `replay` end-to-end.
+- `analyze --show-path`: render the full chain of node ids for each longest path in the table output.
+- `analyze` table now includes a **Bottleneck** column naming the slowest model on each path. A bottleneck that appears across multiple rows is a shared-node optimization target.
 
 ## [0.1.0] - 2026-04-24
 

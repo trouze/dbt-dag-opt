@@ -60,6 +60,31 @@ def test_analyze_from_files_table(
     )
     assert result.exit_code == 0, result.stdout
     assert "source.demo.raw.orders" in result.stdout
+    # default table now includes the Bottleneck column (weights are passed by the CLI)
+    assert "Bottleneck" in result.stdout
+
+
+def test_analyze_show_path_renders_full_chain(
+    tiny_manifest_path: Path, tiny_run_results_path: Path
+) -> None:
+    result = runner.invoke(
+        app,
+        [
+            "analyze",
+            "--manifest",
+            str(tiny_manifest_path),
+            "--run-results",
+            str(tiny_run_results_path),
+            "--format",
+            "table",
+            "--show-path",
+        ],
+    )
+    assert result.exit_code == 0, result.stdout
+    # fact_orders is the terminal model in tiny fixture; intermediate stg_orders sits in between
+    assert "stg_orders" in result.stdout
+    assert "fact_orders" in result.stdout
+    assert "→" in result.stdout
 
 
 def test_analyze_output_file_writes_file(
