@@ -147,7 +147,7 @@ An end-to-end walkthrough you can record or run locally:
 ./scripts/demo.sh
 ```
 
-Drives every subcommand (`analyze`, `analyze --show-path`, `replay`, `replay --warehouse-size L/XL`, `--credits-per-hour` for non-Snowflake, JSON + `jq`) against a synthetic 24-model baseball-analytics DAG in `tests/fixtures/demo_project/`. Set `PAUSE=0` to dry-run without narration beats.
+Drives every subcommand (`analyze`, `analyze --show-path`, `replay`, `replay --warehouse-size L/XL`, `--credits-per-hour` for non-Snowflake, JSON + `jq`) against a synthetic 24-model baseball-analytics DAG in `tests/fixtures/demo_project/`. Press **Enter** to advance each step. Set `AUTO=1 PAUSE=0` for a hands-free dry-run.
 
 ## Development
 
