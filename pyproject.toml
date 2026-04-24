@@ -1,0 +1,80 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dbt-dag-opt"
+version = "0.1.0"
+description = "Find the longest-running critical paths through your dbt DAG so you know which models to optimize first."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+authors = [{ name = "Tyler Rouze" }]
+keywords = ["dbt", "dag", "critical-path", "performance", "snowflake"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "typer>=0.12",
+    "rich>=13.7",
+    "requests>=2.32",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "responses>=0.25",
+    "ruff>=0.5",
+    "mypy>=1.10",
+    "types-requests",
+]
+
+[project.urls]
+Homepage = "https://github.com/trouze/dbt-dag-opt"
+Issues = "https://github.com/trouze/dbt-dag-opt/issues"
+Source = "https://github.com/trouze/dbt-dag-opt"
+
+[project.scripts]
+dbt-dag-opt = "dbt_dag_opt.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dbt_dag_opt"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/dbt_dag_opt", "README.md", "LICENSE", "CHANGELOG.md", "tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "PL", "RUF"]
+ignore = ["PLR0913"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["PLR2004"]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
