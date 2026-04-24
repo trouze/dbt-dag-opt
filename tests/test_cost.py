@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from math import isclose
 from pathlib import Path
 
@@ -17,6 +18,8 @@ from dbt_dag_opt.cost import (
 from dbt_dag_opt.errors import InvalidArtifactError
 from dbt_dag_opt.models import DagArtifacts
 from dbt_dag_opt.replay import build_replay
+
+_ANSI_RE = re.compile(r"\x1b\[[0-9;]*[A-Za-z]")
 
 runner = CliRunner()
 
@@ -179,5 +182,6 @@ def test_cli_rate_without_size_fails(
         ],
     )
     assert result.exit_code != 0
-    combined = (result.stdout + (result.stderr or "")).lower()
-    assert "--warehouse-size" in combined or "warehouse-size" in combined
+    raw = result.stdout + (result.stderr or "")
+    combined = _ANSI_RE.sub("", raw).lower()
+    assert "--warehouse-size" in combined
