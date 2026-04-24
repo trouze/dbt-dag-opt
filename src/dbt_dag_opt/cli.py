@@ -15,6 +15,8 @@ from dbt_dag_opt.formatters import Format, render
 from dbt_dag_opt.graph import build_dag
 from dbt_dag_opt.longest_path import longest_paths_from_each_source
 from dbt_dag_opt.models import DagArtifacts
+from dbt_dag_opt.replay import build_replay
+from dbt_dag_opt.replay_formatters import ReplayFormat, render_replay
 
 app = typer.Typer(
     name="dbt-dag-opt",
@@ -117,6 +119,86 @@ def analyze(
     if output is not None:
         output.write_text(rendered, encoding="utf-8")
         typer.echo(f"Wrote {len(results)} path result(s) to {output}")
+    else:
+        sys.stdout.write(rendered)
+        if not rendered.endswith("\n"):
+            sys.stdout.write("\n")
+
+
+@app.command("replay")
+def replay(
+    manifest: Annotated[
+        Path | None,
+        typer.Option("--manifest", help="Path to manifest.json (file mode)."),
+    ] = None,
+    run_results: Annotated[
+        Path | None,
+        typer.Option("--run-results", help="Path to run_results.json (file mode)."),
+    ] = None,
+    account_id: Annotated[
+        str | None,
+        typer.Option("--account-id", help="dbt Cloud account id (cloud mode)."),
+    ] = None,
+    job_id: Annotated[
+        str | None,
+        typer.Option("--job-id", help="dbt Cloud job id (cloud mode)."),
+    ] = None,
+    run_id: Annotated[
+        str | None,
+        typer.Option(
+            "--run-id",
+            help="dbt Cloud run id (cloud mode). If omitted, uses the job's latest run.",
+        ),
+    ] = None,
+    base_url: Annotated[
+        str,
+        typer.Option("--base-url", help="dbt Cloud base URL."),
+    ] = artifacts.DEFAULT_BASE_URL,
+    token: Annotated[
+        str | None,
+        typer.Option(
+            "--token",
+            help="dbt Cloud API token. Prefer setting DBT_CLOUD_TOKEN in the environment.",
+            envvar="DBT_CLOUD_TOKEN",
+        ),
+    ] = None,
+    fmt: Annotated[
+        ReplayFormat, typer.Option("--format", "-f", help="Output format.")
+    ] = ReplayFormat.TEXT,
+    top_idle_gaps: Annotated[
+        int,
+        typer.Option(
+            "--top-idle-gaps",
+            help="Number of idle gaps to surface. Use 0 to suppress.",
+        ),
+    ] = 10,
+    output: Annotated[
+        Path | None,
+        typer.Option("--output", "-o", help="Write output to a file instead of stdout."),
+    ] = None,
+) -> None:
+    """Replay an observed run: per-thread utilization, critical path, and idle-gap attribution."""
+    try:
+        data = _load(
+            manifest=manifest,
+            run_results=run_results,
+            account_id=account_id,
+            job_id=job_id,
+            run_id=run_id,
+            base_url=base_url,
+            token=token,
+        )
+        limit = top_idle_gaps if top_idle_gaps > 0 else 0
+        report = build_replay(data, top_idle_gaps_limit=limit)
+    except DbtDagOptError as exc:
+        typer.secho(f"error: {exc}", fg=typer.colors.RED, err=True)
+        raise typer.Exit(code=1) from exc
+
+    rendered = render_replay(report, fmt)
+
+    if output is not None:
+        output.write_text(rendered, encoding="utf-8")
+        typer.echo(f"Wrote replay report to {output}")
     else:
         sys.stdout.write(rendered)
         if not rendered.endswith("\n"):

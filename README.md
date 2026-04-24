@@ -53,6 +53,8 @@ Add `--run-id <id>` to pull artifacts from a specific historical run instead of 
 
 ## CLI reference
 
+### `analyze` — critical path through the DAG
+
 ```
 dbt-dag-opt analyze [OPTIONS]
 
@@ -68,11 +70,31 @@ dbt-dag-opt analyze [OPTIONS]
   -o, --output PATH            Write output to a file instead of stdout
 ```
 
+### `replay` — what actually happened
+
+`analyze` is theoretical — it reports the DAG-structural lower bound on wall-clock. `replay` reads the *observed* schedule. Every result in `run_results.json` carries a `thread_id` and per-phase `timing` with start/end timestamps, so we can reconstruct:
+
+- **Per-thread utilization** — how much of the run each worker was busy vs. idle.
+- **Observed critical path** — the chain of nodes that actually determined wall-clock, walked backwards from the last-completing node.
+- **Idle-gap attribution** — for every stretch of idle time, which upstream node's completion unblocked the thread. Gaps with no blocker are scheduler overhead, not DAG blocking.
+
+```
+dbt-dag-opt replay [OPTIONS]
+
+  --manifest PATH              Path to manifest.json (file mode)
+  --run-results PATH           Path to run_results.json (file mode)
+  --account-id / --job-id      dbt Cloud mode (same as analyze)
+  -f, --format [text|json]     Output format  [default: text]
+  --top-idle-gaps INTEGER      How many idle gaps to surface  [default: 10]
+  -o, --output PATH            Write output to a file instead of stdout
+```
+
 ### Output formats
 
-- `table` — rich terminal table (default; what you want in a shell).
-- `json` — one object keyed by source: `{source_id: {path, distance, length}}`. Valid JSON, safe to pipe through `jq`.
-- `jsonl` — one JSON object per line. Nice for streaming into a log aggregator.
+- `table` — rich terminal table (default for `analyze`).
+- `text` — rich-rendered summary (default for `replay`): run summary, per-thread utilization, observed critical path, top idle gaps.
+- `json` — `analyze` emits `{source_id: {path, distance, length}}`; `replay` emits the full replay report. Both are `jq`-friendly.
+- `jsonl` — one JSON object per line (`analyze` only).
 
 ## How it works
 
@@ -85,11 +107,11 @@ Distances sum the execution time of every node along the path — that's the war
 
 ## What this is / isn't
 
-It **is** a CLI tool that points at the slowest chains in your DAG.
+It **is** a CLI tool that points at the slowest chains in your DAG and — as of `replay` — the observed schedule that those chains actually produced.
 
 It **isn't** (yet):
-- A scheduler simulator. If your dbt `threads` setting is low, total wall-clock is bounded by parallelism *and* the critical path; v0.2 will surface both. For now, treat the critical-path distance as a lower bound.
-- A cost model. Multiplying distance × your warehouse rate is on you — a `--warehouse-size` flag is planned for v0.3.
+- A predictive scheduler simulator. `replay` reconstructs what already happened; it doesn't yet project what would happen under a different `--threads N` or if you sped up a specific model. That "what-if" loop is planned next.
+- A cost model. Multiplying wall-clock × your warehouse rate is on you — a `--warehouse-size` flag is planned alongside the what-if loop.
 
 ## Development
 
