@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [Unreleased]
 
+### Added
+
+- `replay` cost overlay: pass `--warehouse-size` (Snowflake XS…6XL) or `--credits-per-hour` (non-Snowflake adapters) to translate wall-clock into dollars. Renders **Run cost**, **Critical-path floor**, **Headroom** (= run − floor; the prize for better parallelization), and **Idle cost** (the $ equivalent of thread-idle warehouse-seconds). Defaults to $2.00/credit (Snowflake Standard On-Demand); override with `--rate-per-credit`. Snowflake's 60-second minimum-billing floor is applied automatically; pass `--no-minimum-billing` to see raw wall-clock × rate.
+- New module `dbt_dag_opt.cost` with `CostInputs`, `CostReport`, `compute_cost()`, `credits_per_hour_for()`, and `cost_inputs_from_replay()`. Designed primitive-first so a future `whatif` simulator can call `compute_cost` against simulated schedules and diff the resulting `CostReport`s.
+
 ## [0.1.0] - 2026-04-24
 
 Initial PyPI release. Complete rewrite of the pre-release prototype.

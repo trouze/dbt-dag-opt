@@ -10,6 +10,11 @@ from typing import Annotated
 import typer
 
 from dbt_dag_opt import __version__, artifacts
+from dbt_dag_opt.cost import (
+    DEFAULT_RATE_PER_CREDIT_USD,
+    compute_cost,
+    cost_inputs_from_replay,
+)
 from dbt_dag_opt.errors import DbtDagOptError
 from dbt_dag_opt.formatters import Format, render
 from dbt_dag_opt.graph import build_dag
@@ -181,12 +186,57 @@ def replay(
             help="Number of idle gaps to surface. Use 0 to suppress.",
         ),
     ] = 10,
+    warehouse_size: Annotated[
+        str | None,
+        typer.Option(
+            "--warehouse-size",
+            help="Snowflake warehouse size (XS, S, M, L, XL, 2XL...6XL). Triggers cost overlay.",
+        ),
+    ] = None,
+    credits_per_hour: Annotated[
+        float | None,
+        typer.Option(
+            "--credits-per-hour",
+            help=(
+                "Raw credits/hour for non-Snowflake adapters. "
+                "Mutually exclusive with --warehouse-size."
+            ),
+        ),
+    ] = None,
+    rate_per_credit: Annotated[
+        float,
+        typer.Option(
+            "--rate-per-credit",
+            help="USD per credit. Default 2.0 (Snowflake Standard On-Demand).",
+        ),
+    ] = DEFAULT_RATE_PER_CREDIT_USD,
+    no_minimum_billing: Annotated[
+        bool,
+        typer.Option(
+            "--no-minimum-billing",
+            help="Skip the 60s minimum-billing floor that Snowflake applies on warehouse resume.",
+        ),
+    ] = False,
     output: Annotated[
         Path | None,
         typer.Option("--output", "-o", help="Write output to a file instead of stdout."),
     ] = None,
 ) -> None:
     """Replay an observed run: per-thread utilization, critical path, and idle-gap attribution."""
+    if warehouse_size is not None and credits_per_hour is not None:
+        raise typer.BadParameter(
+            "--warehouse-size and --credits-per-hour are mutually exclusive."
+        )
+    cost_requested = warehouse_size is not None or credits_per_hour is not None
+    if not cost_requested and rate_per_credit != DEFAULT_RATE_PER_CREDIT_USD:
+        raise typer.BadParameter(
+            "--rate-per-credit requires --warehouse-size or --credits-per-hour."
+        )
+    if not cost_requested and no_minimum_billing:
+        raise typer.BadParameter(
+            "--no-minimum-billing requires --warehouse-size or --credits-per-hour."
+        )
+
     try:
         data = _load(
             manifest=manifest,
@@ -199,11 +249,21 @@ def replay(
         )
         limit = top_idle_gaps if top_idle_gaps > 0 else 0
         report = build_replay(data, top_idle_gaps_limit=limit)
+        cost_report = None
+        if cost_requested:
+            cost_inputs = cost_inputs_from_replay(
+                report,
+                warehouse_size=warehouse_size,
+                credits_per_hour=credits_per_hour,
+                rate_per_credit_usd=rate_per_credit,
+                apply_minimum_billing=not no_minimum_billing,
+            )
+            cost_report = compute_cost(cost_inputs)
     except DbtDagOptError as exc:
         typer.secho(f"error: {exc}", fg=typer.colors.RED, err=True)
         raise typer.Exit(code=1) from exc
 
-    rendered = render_replay(report, fmt)
+    rendered = render_replay(report, fmt, cost=cost_report)
 
     if output is not None:
         output.write_text(rendered, encoding="utf-8")

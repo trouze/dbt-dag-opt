@@ -10,6 +10,7 @@ from io import StringIO
 from rich.console import Console
 from rich.table import Table
 
+from dbt_dag_opt.cost import CostReport
 from dbt_dag_opt.replay import CriticalStep, IdleGap, ReplayEvent, ReplayReport, ThreadStats
 
 
@@ -18,29 +19,51 @@ class ReplayFormat(str, Enum):
     JSON = "json"
 
 
-def render_replay(report: ReplayReport, fmt: ReplayFormat) -> str:
+def render_replay(
+    report: ReplayReport,
+    fmt: ReplayFormat,
+    *,
+    cost: CostReport | None = None,
+) -> str:
     if fmt is ReplayFormat.JSON:
-        return _render_json(report)
+        return _render_json(report, cost)
     if fmt is ReplayFormat.TEXT:
-        return _render_text(report)
+        return _render_text(report, cost)
     raise ValueError(f"unknown format: {fmt}")
 
 
-def _render_json(report: ReplayReport) -> str:
-    return json.dumps(
-        {
-            "wall_clock_seconds": report.wall_clock_seconds,
-            "elapsed_time_seconds": report.elapsed_time_seconds,
-            "total_cpu_seconds": report.total_cpu_seconds,
-            "thread_count": report.thread_count,
-            "critical_path_seconds": report.critical_path_seconds,
-            "thread_stats": [_thread_stats_dict(ts) for ts in report.thread_stats],
-            "critical_path": [_critical_step_dict(s) for s in report.critical_path],
-            "top_idle_gaps": [_idle_gap_dict(g) for g in report.top_idle_gaps],
-            "events": [_event_dict(e) for e in report.events],
-        },
-        indent=2,
-    )
+def _render_json(report: ReplayReport, cost: CostReport | None) -> str:
+    payload: dict[str, object] = {
+        "wall_clock_seconds": report.wall_clock_seconds,
+        "elapsed_time_seconds": report.elapsed_time_seconds,
+        "total_cpu_seconds": report.total_cpu_seconds,
+        "thread_count": report.thread_count,
+        "critical_path_seconds": report.critical_path_seconds,
+        "thread_stats": [_thread_stats_dict(ts) for ts in report.thread_stats],
+        "critical_path": [_critical_step_dict(s) for s in report.critical_path],
+        "top_idle_gaps": [_idle_gap_dict(g) for g in report.top_idle_gaps],
+        "events": [_event_dict(e) for e in report.events],
+    }
+    if cost is not None:
+        payload["cost"] = _cost_dict(cost)
+    return json.dumps(payload, indent=2)
+
+
+def _cost_dict(cost: CostReport) -> dict[str, float | str | bool | None]:
+    return {
+        "warehouse_size": cost.inputs.warehouse_size_label,
+        "credits_per_hour": cost.inputs.credits_per_hour,
+        "rate_per_credit_usd": cost.inputs.rate_per_credit_usd,
+        "rate_per_second_usd": cost.rate_per_second_usd,
+        "billed_seconds": cost.billed_seconds,
+        "min_billing_applied": cost.min_billing_applied,
+        "run_cost_usd": cost.run_cost_usd,
+        "floor_cost_usd": cost.floor_cost_usd,
+        "headroom_usd": cost.headroom_usd,
+        "idle_thread_seconds": cost.idle_thread_seconds,
+        "idle_cost_usd": cost.idle_cost_usd,
+        "waste_fraction": cost.waste_fraction,
+    }
 
 
 def _thread_stats_dict(ts: ThreadStats) -> dict[str, float | int | str]:
@@ -90,7 +113,7 @@ def _iso(ts: datetime) -> str:
     return ts.isoformat()
 
 
-def _render_text(report: ReplayReport) -> str:
+def _render_text(report: ReplayReport, cost: CostReport | None) -> str:
     buffer = StringIO()
     console = Console(file=buffer, force_terminal=False, width=120)
 
@@ -104,6 +127,9 @@ def _render_text(report: ReplayReport) -> str:
     summary.add_row("Events", str(len(report.events)))
     summary.add_row("Observed critical path", f"{report.critical_path_seconds:.3f} s")
     console.print(summary)
+
+    if cost is not None:
+        console.print(_cost_table(report, cost))
 
     threads = Table(title="Thread utilization", show_lines=False)
     threads.add_column("Thread", overflow="fold")
@@ -156,3 +182,72 @@ def _render_text(report: ReplayReport) -> str:
         console.print(idle)
 
     return buffer.getvalue()
+
+
+def _cost_table(report: ReplayReport, cost: CostReport) -> Table:
+    table = Table(title="Cost estimate", show_header=False, show_lines=False)
+    table.add_column("key", style="dim")
+    table.add_column("value")
+
+    label = cost.inputs.warehouse_size_label
+    rate_per_credit = cost.inputs.rate_per_credit_usd
+    if label is not None:
+        warehouse_cell = (
+            f"{label} ({_fmt_credits(cost.inputs.credits_per_hour)} credits/hr "
+            f"@ ${rate_per_credit:.2f}/credit)"
+        )
+    else:
+        warehouse_cell = (
+            f"custom ({_fmt_credits(cost.inputs.credits_per_hour)} credits/hr "
+            f"@ ${rate_per_credit:.2f}/credit)"
+        )
+    table.add_row("Warehouse", warehouse_cell)
+    table.add_row("Effective rate", f"${cost.rate_per_second_usd:.5f}/s")
+
+    if cost.min_billing_applied:
+        table.add_row(
+            "Billed wall-clock",
+            f"{cost.billed_seconds:.3f} s  (raised from {report.wall_clock_seconds:.3f} s)",
+        )
+    else:
+        table.add_row("Billed wall-clock", f"{cost.billed_seconds:.3f} s")
+
+    table.add_row("Run cost", _fmt_usd(cost.run_cost_usd))
+    table.add_row("Critical-path floor", _fmt_usd(cost.floor_cost_usd))
+
+    headroom_pct = (
+        f"  ({cost.headroom_usd / cost.run_cost_usd:.0%})"
+        if cost.run_cost_usd > 0
+        else ""
+    )
+    table.add_row("Headroom", f"{_fmt_usd(cost.headroom_usd)}{headroom_pct}")
+
+    waste_pct = f"({cost.waste_fraction:.0%} of warehouse-seconds)"
+    table.add_row(
+        "Thread idleness",
+        f"{cost.idle_thread_seconds:.3f} s  {waste_pct}",
+    )
+
+    idle_pct = (
+        f"  ({cost.idle_cost_usd / cost.run_cost_usd:.0%})"
+        if cost.run_cost_usd > 0
+        else ""
+    )
+    table.add_row("Idle cost", f"{_fmt_usd(cost.idle_cost_usd)}{idle_pct}")
+
+    return table
+
+
+_USD_HIGH_PRECISION_THRESHOLD = 0.10
+
+
+def _fmt_usd(amount: float) -> str:
+    if amount < _USD_HIGH_PRECISION_THRESHOLD:
+        return f"${amount:.4f}"
+    return f"${amount:.2f}"
+
+
+def _fmt_credits(credits_per_hour: float) -> str:
+    if credits_per_hour == int(credits_per_hour):
+        return str(int(credits_per_hour))
+    return f"{credits_per_hour:.2f}"
